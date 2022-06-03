@@ -1,0 +1,29 @@
+USE [FDDTAPDEV]
+GO
+/****** Object:  StoredProcedure [dbo].[FDDTAPDEVBIPIN]    Script Date: 03-06-2022 11:56:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[FDDTAPDEVBIPIN]
+( 
+ @ConditionalOperator int = 0,
+	@XmlData	XML = '',
+	@RecordID int = 0 out  
+)
+AS
+BEGIN
+ 
+DECLARE @fName varchar(30) , @city varchar(30)
+
+	Select 
+		@fName = M.Item.query('./FirstName').value('.','varchar(30)'),
+		@city = M.Item.query('./City').value('.','varchar(30)') 
+		FROM @XmlData.nodes('ArmsData') AS M(Item)
+
+	SELECT * FROM dbo.Persons WHERE FirstName=@fName AND City=@city
+END;
+
+--DROP PROCEDURE FDDTAPDEVBIPIN
+
+--exec [dbo].[FDDTAPDEVBIPIN] '<ArmsData><ClientInfo><UserID>0</UserID><EntryTimeZoneID>0</EntryTimeZoneID><UsageId>0</UsageId><HostName></HostName></ClientInfo><FirstName>BIPIN</FirstName><City>JAMUI</City></ArmsData>'
