@@ -1,8 +1,3 @@
-using Arms.Common;
-using Arms.FT.BLL;
-using Arms.FT.DAL;
-using Arms.FT.WebUI.ViewModel;
-using Arms.Service.Access;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
